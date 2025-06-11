@@ -30,3 +30,29 @@ post3.categories.add(category3)              # Новость о техноло�
 comment1 = Comment.objects.create(post=post1, user=user1, text='Отличная статья!')
 comment2 = Comment.objects.create(post=post1, user=user2, text='Согласен с мнением автора.')
 comment3 = Comment.objects.create(post=post2, user=user1, text='Интересно!')
+comment4 = Comment.objects.create(post=post3, user=user2, text='Нужна больше информации.')
+
+# Применяем функции like() и dislike()
+post1.like()
+post1.like()
+post2.dislike()
+comment1.like()
+comment2.like()
+comment3.dislike()
+
+# Обновляем рейтинги пользователей
+author1.update_rating()
+author2.update_rating()
+
+# Выводим username и рейтинг лучшего пользователя
+best_author = Author.objects.order_by('-rating').first()
+print(best_author.user.username, best_author.rating)
+
+# Выводим дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи
+best_post = Post.objects.order_by('-rating').first()
+print(best_post.created_at, best_post.author.user.username, best_post.rating, best_post.title, best_post.preview())
+
+# Выводим все комментарии к этой статье
+comments_for_best_post = Comment.objects.filter(post=best_post)
+for comment in comments_for_best_post:
+    print(comment.created_at, comment.user.username, comment.rating, comment.text)
