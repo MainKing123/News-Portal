@@ -46,13 +46,15 @@ author2.update_rating()
 
 # Выводим username и рейтинг лучшего пользователя
 best_author = Author.objects.order_by('-rating').first()
-print(best_author.user.username, best_author.rating)
+if best_author:
+    print(best_author.user.username, best_author.rating)
 
 # Выводим дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи
 best_post = Post.objects.order_by('-rating').first()
-print(best_post.created_at, best_post.author.user.username, best_post.rating, best_post.title, best_post.preview())
+if best_post:
+    print(best_post.created_at, best_post.author.user.username, best_post.rating, best_post.title, best_post.preview())
 
-# Выводим все комментарии к этой статье
-comments_for_best_post = Comment.objects.filter(post=best_post)
-for comment in comments_for_best_post:
-    print(comment.created_at, comment.user.username, comment.rating, comment.text)
+    # Выводим все комментарии к этой статье
+    comments_for_best_post = Comment.objects.filter(post=best_post)
+    for comment in comments_for_best_post:
+        print(comment.created_at, comment.user.username, comment.rating, comment.text)
