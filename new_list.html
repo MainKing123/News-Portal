@@ -1,0 +1,11 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <h1>Список новостей</h1>
+    {% for item in news %}
+        <h2><a href="{% url 'news_detail' news_id=item.id %}">{{ item.title | censor_safe }}</a></h2>
+        <p>{{ item.created_at }}</p>
+        <p>{{ item.text | censor_safe | truncatechars:20 }}</p>
+    {% endfor %}
+{% endblock %}
