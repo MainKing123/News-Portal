@@ -1,0 +1,37 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+{% block content %}
+    <h1>Список новостей</h1>
+    {% for item in news %}
+        <h2><a href="{% url 'news_detail' news_id=item.id %}">{{ item.title | censor }}</a></h2>
+        <p>{{ item.created_at }}</p>
+        <p>{{ item.text | censor | truncatechars:20 }}</p>
+        {% if user.is_authenticated and item.author == request.user.author %} {# Ссылки на редактирование и удаление только для авторизованных авторов #}
+            <a href="{% url 'news_edit' pk=item.pk %}">Редактировать</a>
+            <a href="{% url 'news_delete' pk=item.pk %}">Удалить</a>
+        {% endif %}
+    {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if news.has_previous %}
+                <a href="?page=1">&laquo; Первая</a>
+                <a href="?page={{ news.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            {% for i in news.paginator.page_range %}
+                {% if news.number == i %}
+                    <span class="current">{{ i }}</span>
+                {% elif i > news.number|add:'-3' and i < news.number|add:'3' %}
+                    <a href="?page={{ i }}">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if news.has_next %}
+                <a href="?page={{ news.next_page_number }}">Следующая</a>
+                <a href="?page={{ news.paginator.num_pages }}">Последняя &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

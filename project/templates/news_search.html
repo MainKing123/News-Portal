@@ -1,0 +1,22 @@
+{% extends 'default.html' %}
+{% load django_filters %}
+
+{% block content %}
+    <h1>Поиск новостей</h1>
+
+    <form method="get">
+        {{ filter.form.as_p }}
+        <button type="submit">Поиск</button>
+    </form>
+
+    {% if news %}
+        <h2>Результаты поиска:</h2>
+        {% for item in news %}
+            <h3><a href="{% url 'news_detail' news_id=item.id %}">{{ item.title }}</a></h3>
+            <p>{{ item.created_at }}</p>
+            <p>{{ item.text|truncatechars:20 }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Нет результатов, соответствующих вашим критериям.</p>
+    {% endif %}
+{% endblock %}
