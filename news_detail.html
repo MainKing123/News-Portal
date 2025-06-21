@@ -1,8 +1,0 @@
-{% extends 'default.html' %}
-{% load custom_filters %}
-
-{% block content %}
-    <h1>{{ news_item.title | censor_safe }}</h1>
-    <p>{{ news_item.created_at|date:"d.m.Y" }}</p>
-    <p>{{ news_item.text | censor_safe }}</p>
-{% endblock %}
