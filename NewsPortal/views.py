@@ -1,13 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from project.NewsPortal.models import Post
-from project.NewsPortal.forms import PostForm
-from project.NewsPortal.filters import PostFilter
+from NewsPortal.models import Post
+from NewsPortal.forms import PostForm
+from NewsPortal.filters import PostFilter
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .forms import AuthorRequestForm
+from .models import AuthorRequest
 
 
 @login_required # доступ только авторизованным пользователям
@@ -113,3 +116,13 @@ class ArticleDelete(LoginRequiredMixin, DeleteView): # доступ только
         if obj.author != self.request.user.author:
             raise PermissionDenied
         return obj
+@login_required
+def author_request(request):
+    if request.method == 'POST':
+        form = AuthorRequestForm(request.POST)
+        if form.is_valid():
+            author_request, created = AuthorRequest.objects.get_or_create(user=request.user)
+            return render(request, 'author_request_done.html') # Успешный запрос
+    else:
+        form = AuthorRequestForm()
+    return render(request, 'author_request.html', {'form': form})

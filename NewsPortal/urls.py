@@ -31,4 +31,5 @@ urlpatterns = [
     path('articles/create/', views.ArticleCreate.as_view(), name='article_create'),
     path('articles/<int:pk>/edit/', views.ArticleUpdate.as_view(), name='article_edit'),
     path('articles/<int:pk>/delete/', views.ArticleDelete.as_view(), name='article_delete'),
+    path('author/request/', views.author_request, name='author_request'),
 ]

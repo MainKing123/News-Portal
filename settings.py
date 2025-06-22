@@ -155,16 +155,15 @@ ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 
 # Providers specific settings
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'offline',
+    'yandex': {
+        'APP': {
+            'client_id': 'ВАШ_YANDEX_CLIENT_ID',
+            'secret': 'ВАШ_YANDEX_CLIENT_SECRET',
+            'key': ''
         }
     }
 }
+
 
 # Crispy forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
