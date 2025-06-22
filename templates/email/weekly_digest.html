@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Еженедельная подборка</title>
+</head>
+<body>
+    <h2>Здравствуйте, {{ user.username }}!</h2>
+    <p>Вот статьи, опубликованные за прошедшую неделю в категории <strong>{{ category.name }}</strong>:</p>
+    <ul>
+        {% for post in posts %}
+        <li>
+            <a href="http://127.0.0.1:8000/news/{{ post.pk }}">{{ post.title }}</a> — {{ post.date|date:"d.m.Y H:i" }}<br>
+            <em>{{ post.text|truncatewords:20 }}</em>
+        </li>
+        {% endfor %}
+    </ul>
+    <p>Спасибо, что остаетесь с нами!</p>
+</body>
+</html>
